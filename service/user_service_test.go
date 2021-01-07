@@ -39,12 +39,7 @@ func TestNewUserService(t *testing.T) {
 	require.NotNil(t, addUserActivityResp)
 
 	// adding user activity who is not in our platform
-	addUserActivityReq = &pb.CreateUserActivityReq{UserEmail: "asdasd@gmail.com", Activity: &pb.Activity{
-		Activity:     pb.ActivityType_SLEEP,
-		Day:          "2020-10-10",
-		Status:       pb.Status_ACTIVE,
-		TimeDuration: 7,
-	}}
+	addUserActivityReq.UserEmail = "asdasdasd@gmai..com"
 	addUserActivityResp, err = userService.AddUserActivityServiceReq(ctx, addUserActivityReq)
 	require.Nil(t, addUserActivityResp)
 	require.NotNil(t, err)
@@ -60,5 +55,5 @@ func TestNewUserService(t *testing.T) {
 	updateActivityStatusResp, err := userService.UpdateUserActivityServiceReq(ctx, updateUserActivityReq)
 	require.Nil(t, err)
 	require.NotNil(t, updateActivityStatusResp)
-
+	require.Equal(t, updateActivityStatusResp.GetActivity().GetStatus(), pb.Status_DONE)
 }
