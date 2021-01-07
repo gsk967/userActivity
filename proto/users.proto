@@ -1,0 +1,97 @@
+syntax = "proto3";
+package gsk967.userActivity;
+option go_package = ".;pb";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+
+message UserInfo {
+  string UserName = 1;
+  string Email = 2;
+  string PhoneNo = 3;
+}
+
+message CreateUsersResponse {
+  UserInfo userInfo = 1;
+}
+
+enum ActivityType {
+  UNKNOWN = 0;
+  SLEEP = 1;
+  EAT = 2;
+  READ = 3;
+  PLAY = 4;
+}
+
+enum Status {
+  UN_KNOWN = 0;
+  ACTIVE = 1;
+  DONE = 2;
+}
+
+message Activity {
+  string day = 6;
+  ActivityType activity = 1;
+  uint32 time_duration = 2;
+  Status status = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message GetUserActivityReq {
+  string user_email = 1;
+}
+
+message UserActivity {
+  string user_email = 1;
+  repeated Activity daily_activities = 2;
+}
+
+message CreateUserActivityReq {
+  string user_email = 1;
+  Activity activity = 2;
+}
+
+message CreateUserActivityResponse {
+  string user_email = 1;
+  Activity activity = 2;
+}
+
+message UpdateActivityStatusReq {
+  string user_email = 1;
+  string day = 2;
+  ActivityType activity = 3;
+  Status status = 4;
+}
+
+message UpdateActivityStatusResponse {
+  string user_email = 1;
+  Activity activity = 2;
+}
+
+service Users {
+  rpc CreateUsersReq(UserInfo) returns (CreateUsersResponse){
+    option (google.api.http) = {
+      post: "/v1/users"
+      body: "*"
+    };
+  }
+  rpc GetUserActivityServiceReq(GetUserActivityReq) returns (UserActivity){
+    option (google.api.http) = {
+      post: "/v1/users/getActivities"
+      body: "*"
+    };
+  };
+  rpc AddUserActivityServiceReq(CreateUserActivityReq) returns (CreateUserActivityResponse){
+    option (google.api.http) = {
+      post: "/v1/users/createActivity"
+      body: "*"
+    };
+  };
+  rpc UpdateUserActivityServiceReq(UpdateActivityStatusReq) returns (UpdateActivityStatusResponse){
+    option (google.api.http) = {
+      put: "/v1/users/activity"
+      body: "*"
+    };
+  };
+}

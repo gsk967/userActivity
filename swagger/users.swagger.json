@@ -1,0 +1,315 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "users.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/users": {
+      "post": {
+        "operationId": "Users_CreateUsersReq",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userActivityCreateUsersResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userActivityUserInfo"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/v1/users/activity": {
+      "put": {
+        "operationId": "Users_UpdateUserActivityServiceReq",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userActivityUpdateActivityStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userActivityUpdateActivityStatusReq"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/v1/users/createActivity": {
+      "post": {
+        "operationId": "Users_AddUserActivityServiceReq",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userActivityCreateUserActivityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userActivityCreateUserActivityReq"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/v1/users/getActivities": {
+      "post": {
+        "operationId": "Users_GetUserActivityServiceReq",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userActivityUserActivity"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userActivityGetUserActivityReq"
+            }
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "gsk967userActivityStatus": {
+      "type": "string",
+      "enum": [
+        "UN_KNOWN",
+        "ACTIVE",
+        "DONE"
+      ],
+      "default": "UN_KNOWN"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "userActivityActivity": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/userActivityActivityType"
+        },
+        "timeDuration": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "$ref": "#/definitions/gsk967userActivityStatus"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "userActivityActivityType": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "SLEEP",
+        "EAT",
+        "READ",
+        "PLAY"
+      ],
+      "default": "UNKNOWN"
+    },
+    "userActivityCreateUserActivityReq": {
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/userActivityActivity"
+        }
+      }
+    },
+    "userActivityCreateUserActivityResponse": {
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/userActivityActivity"
+        }
+      }
+    },
+    "userActivityCreateUsersResponse": {
+      "type": "object",
+      "properties": {
+        "userInfo": {
+          "$ref": "#/definitions/userActivityUserInfo"
+        }
+      }
+    },
+    "userActivityGetUserActivityReq": {
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "type": "string"
+        }
+      }
+    },
+    "userActivityUpdateActivityStatusReq": {
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "type": "string"
+        },
+        "day": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/userActivityActivityType"
+        },
+        "status": {
+          "$ref": "#/definitions/gsk967userActivityStatus"
+        }
+      }
+    },
+    "userActivityUpdateActivityStatusResponse": {
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/userActivityActivity"
+        }
+      }
+    },
+    "userActivityUserActivity": {
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "type": "string"
+        },
+        "dailyActivities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userActivityActivity"
+          }
+        }
+      }
+    },
+    "userActivityUserInfo": {
+      "type": "object",
+      "properties": {
+        "UserName": {
+          "type": "string"
+        },
+        "Email": {
+          "type": "string"
+        },
+        "PhoneNo": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
