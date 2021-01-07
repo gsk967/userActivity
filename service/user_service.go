@@ -57,7 +57,7 @@ func (userService *UserService) AddUserActivityServiceReq(
 	err = userService.userActivityStore.Save(req)
 	if err != nil {
 		log.Printf("error occured creating the activity %s", err)
-		return nil, status.Errorf(codes.InvalidArgument, "please check %w", err)
+		return nil, status.Errorf(codes.InvalidArgument, "please check %v", err)
 	}
 	return &pb.CreateUserActivityResponse{UserEmail: userEmailAddr, Activity: userActivity}, nil
 }

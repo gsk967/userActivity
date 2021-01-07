@@ -8,8 +8,14 @@ gen:
 clean:
 	rm -r pb/*
 
-server:
-	 go run cmd/server/main.go
+grpc:
+	 go run cmd/server/main.go -type grpc -port 8080
+
+rest:
+	go run cmd/server/main.go -type rest -port 8081
 
 client:
-	echo "Client...."
+	go run cmd/server/client.go -addr 0.0.0.0:8080
+
+test:
+	go test -cover -race ./...
