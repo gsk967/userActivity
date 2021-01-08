@@ -8,14 +8,19 @@ gen:
 clean:
 	rm -r pb/*
 
+install:
+	go install ./...
+	go build -o ./build/clientd -ldflags "-s -w" ./cmd/client/main.go
+	go build -o ./build/userActivity -ldflags "-s -w" ./cmd/server/main.go
+
 grpc:
-	 go run cmd/server/main.go -type grpc -port 8080
+	./build/userActivity -type grpc -port 8080
 
 rest:
-	go run cmd/server/main.go -type rest -port 8081
+	./build/userActivity -type rest -port 8081
 
 client:
-	go run cmd/server/client.go -addr 0.0.0.0:8080
+	./build/clientd -addr 0.0.0.0:8080
 
 test:
 	go test -cover -race ./...
